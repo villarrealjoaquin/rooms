@@ -27,7 +27,6 @@ const io = new Server(server, {
 });
 
 let connectedUsers: UsersConnected[] = [];
-const userRooms = {};
 
 io.on("connection", (socket) => {
   console.log("new user connected");
@@ -36,19 +35,18 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log(`Usuario ${socket.id} se unió a la sala ${room}`);
 
-    // if(userRooms[user.id][room]) return;
+    const hasUser = connectedUsers.some((connection) => connection.id === user.id);
+    if (!hasUser) {
+      connectedUsers = [...connectedUsers, { ...user, socketId: socket.id }];
+    }
 
-    // if(!userRooms[user.id]) {
-    //   userRooms[user.id] = {}
-    // }
-    
-    // userRooms[user.id][room] = true
-    // const hasUser = connectedUsers.some((connection) => connection.id === user.id);
-    // if (hasUser) return;
-    connectedUsers = [...connectedUsers, { ...user, socketId: socket.id }];
+    let deleteDuplicatedConnections = new Set(connectedUsers);
+    let addConnection = [...deleteDuplicatedConnections];
 
-    const messages = await messageModel.find({ to: room });
-    socket.emit("previousMessages", { messages, connectedUsers });
+    const messages = await messageModel.find({ to: room })
+      .populate('user', 'username');
+
+    io.to(room).emit("previousMessages", { messages, addConnection });
   });
 
   socket.on("sendMessage", async ({ room, message, userId }) => {
@@ -58,12 +56,17 @@ io.on("connection", (socket) => {
     const newMessage = new messageModel({
       message,
       to: room,
-      user: userId,
+      user: userId
     });
     await newMessage.save();
+    await newMessage.populate('user', 'username');
 
     io.to(room).emit("newMessage", newMessage);
   });
+
+  socket.on('typing', ({ room, user }) => {
+    socket.broadcast.to(room).emit("typing:user", user.username);
+  })
 
   socket.on('disconnect', () => {
     console.log('client disconnected');

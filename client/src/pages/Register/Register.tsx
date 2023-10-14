@@ -1,3 +1,4 @@
+import { Button, ButtonGroup, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -9,7 +10,7 @@ export const Register = () => {
   });
   const { signUp } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     signUp(values);
   };
@@ -24,12 +25,19 @@ export const Register = () => {
   return (
     <>
       <div className="form-container">
-        <h2>Registro</h2>
-        <form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={handleSubmit}>
-          <input type="text" placeholder="username" name="username" onChange={handleChange} />
-          <input type="email" placeholder="Email" name="email" onChange={handleChange} />
-          <input type="password" placeholder="Contraseña" name="password" onChange={handleChange} />
-          <button>Submit</button>
+        <Heading as='h3' size='md' marginBlock='1rem'>Registro</Heading>
+        <form className="form-register" onSubmit={handleSubmit}>
+          <FormControl>
+            <FormLabel marginTop='1rem'>Usuario</FormLabel>
+            <Input type="text" variant='filled' placeholder="Ejemplo: usuario123" name="username" onChange={handleChange} />
+            <FormLabel marginTop='1rem'>Correo</FormLabel>
+            <Input variant='filled' type="email" placeholder="Ejemplo: ejemplo@correo.com" name="email" onChange={handleChange} />
+            <FormLabel marginTop='1rem'>Contraseña</FormLabel>
+            <Input variant='filled' type="password" placeholder="Ingresa tu contraseña" name="password" onChange={handleChange} />
+            <ButtonGroup marginTop='1rem' display='flex' justifyContent='center'>
+              <Button type="submit" marginTop='10px' colorScheme='whatsapp'>Submit</Button>
+            </ButtonGroup>
+          </FormControl>
         </form>
       </div>
     </>

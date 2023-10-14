@@ -13,9 +13,42 @@ li {
 }
 
 .form-container {
-  display: grid;
-  place-content: center;
-  /* min-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: auto;
+}
+
+label {
+  text-align: center;
+}
+
+.form-container input {
+  /* margin: .5rem auto;
+  width: 15%; */
+}
+
+.form-register {
+  width: 20%;
+  
+}
+
+.h2-room {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.h2-acceder {
+  text-align: center;
+  font-weight: 500;
+}
+
+span {
+  color: #63b77d;
+  font-weight: bold;
 }
 
 .rooms-container {
@@ -48,9 +81,23 @@ li {
 }
 
 .chat ul {
+  display: flex;
+  flex-direction: column;
   width: 500px;
-  max-height: 700px;
-  overflow-y: auto;
+  height: 660px;
+  overflow-y: scroll;
+  padding: 1rem;
+  border: 5px solid #C6F6D5;
+  gap: 20px;
+}
+
+.data-message {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat li p{
+  font-weight: 500;
 }
 
 .chat ul::-webkit-scrollbar {
@@ -64,4 +111,43 @@ li {
 
 .container-users {
   display: flex;
+}
+
+.users-connected {
+  margin-bottom: 1rem;
+}
+
+.users-connected h3 span{
+  color: #63b77d;
+}
+
+strong {
+  font-size: .8rem;
+  color: #63b77d;
+}
+
+.centered-message {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; 
+  font-weight: 500;
+}
+
+.typing {
+  padding-block: .5rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer img {
+  width:25px;
+  height: 25px;
+  border-radius: 20px;
 }

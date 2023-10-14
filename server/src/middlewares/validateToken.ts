@@ -22,8 +22,6 @@ export const validateToken = (req: CustomRequest, res: Response, next: NextFunct
   if (!secretKey) return res.status(500).json({ message: 'Internal Server Error' });
 
   jwt.verify(roomToken, secretKey, (err: VerifyErrors | null, user: any) => {
-    console.log(user);
-
     if (err) return res.status(403).json({ message: 'Token denied' });
     req.user = user as User;
     next();

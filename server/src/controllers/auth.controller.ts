@@ -40,7 +40,6 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log({ email, password });
 
   try {
     const user = await userModel.findOne({ email });
@@ -53,7 +52,7 @@ export const login = async (req: Request, res: Response) => {
       const secretKey = process.env.SECRET_KEY;
       if (!secretKey) return res.status(500).json({ message: "Internal server error" });
 
-      const token = jwt.sign({ id: user.id, username: user.username, email }, secretKey);
+      const token = jwt.sign({ id: user._id, username: user.username, email }, secretKey);
       res.cookie('roomToken', token);
       res.json({
         id: user._id,
@@ -68,16 +67,19 @@ export const login = async (req: Request, res: Response) => {
   };
 };
 
+export const logout =  async (req: Request, res: Response) => {
+  res.clearCookie('roomToken');
+  res.json({ message: 'Logout success' });
+}
+
 export const verifyToken = async (req: Request, res: Response) => {
   const { roomToken } = req.cookies;
-
   if (!roomToken) return res.status(401).json({ message: 'Unauthorized' });
-
+  
   if (!process.env.SECRET_KEY) return res.status(500).json({ message: 'internal Server Error' });
 
   jwt.verify(roomToken, process.env.SECRET_KEY, async (err: VerifyErrors | null, user: any) => {
     if (err) return res.status(401).json({ message: 'Unauthorized' });
-
     const userFound = await userModel.findById(user.id);
     if (!userFound) return res.status(401).json({
       message: 'Unauthorized'
