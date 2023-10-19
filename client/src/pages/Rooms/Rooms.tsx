@@ -18,7 +18,7 @@ export interface Message {
 export const URL = 'http://localhost:3000';
 const socket = io(URL);
 
-export const Rooms = () => {
+const Rooms = () => {
   const [currentRoom, setCurrentRoom] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [showRoom, setShowRoom] = useState(false);
@@ -32,12 +32,12 @@ export const Rooms = () => {
     setShowRoom(true);
     setCurrentRoom(room);
     socket.emit('joinRoom', { room, user });
-    toast.success('Welcome to the room ' + room, {
+    toast.success('Bienvenido al chat ' + room, {
       position: 'top-right',
     });
   }
 
-  const previousMessages = ({ messages, addConnection }: { messages: Message[], addConnection: [] }) => {
+  const previousMessages = ({ messages, addConnection }: { messages: Message[], addConnection: User[] }) => {
     setUsersConnected(addConnection);
     setMessages(messages);
   };
@@ -49,9 +49,12 @@ export const Rooms = () => {
   const handleTyping = (user: string) => {
     setUserTyping(user);
     setIsTyping(true);
-    setTimeout(() => {
+
+    const timeout = setTimeout(() => {
       setIsTyping(false);
     }, 5000);
+
+    if (isTyping) clearTimeout(timeout);
   };
 
   useEffect(() => {
@@ -67,6 +70,7 @@ export const Rooms = () => {
       socket.off('previousMessages');
       socket.off('newMessage');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -84,3 +88,5 @@ export const Rooms = () => {
     </main>
   )
 }
+
+export default Rooms;

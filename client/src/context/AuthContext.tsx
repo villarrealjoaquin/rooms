@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { User } from "../model/user.model";
-import { loginUserRequest, registerUserRequest, verifyTokenRequest } from "../services/authenticate";
+import api from "../services/authenticate";
 
 interface Auth {
   user: User | null;
@@ -10,7 +10,6 @@ interface Auth {
   isLoading: boolean;
   signIn: (user: User) => void;
   signUp: (user: User) => void;
-  // setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 export const AuthContext = createContext<Auth | null>(null);
@@ -24,8 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (user: User) => {
     try {
-      const res = await loginUserRequest(user);
-      console.log(res);
+      const res = await api.loginUserRequest(user);
       setUser(res.data);
       setIsAuthenticated(true);
       navigate('/room');
@@ -39,36 +37,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUp = async (user: User) => {
     try {
-      const res = await registerUserRequest(user);
+      const res = await api.registerUserRequest(user);
       setUser(res.data);
       console.log(res);
       setIsAuthenticated(true);
-      setIsLoading(false)
+      setIsLoading(false);
       navigate('/room');
     } catch (error) {
       setIsAuthenticated(false);
       setUser(null);
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   const verifyToken = async () => {
     const cookie = Cookies.get('roomToken');
 
-    if (cookie) {
-      try {
-        const response = await verifyTokenRequest();
-        if (response.data) {
-          setIsAuthenticated(true);
-          setUser(response.data);
-          setIsLoading(false);
-          return;
-        }
-      } catch (error) {
-        setIsAuthenticated(false)
-        setUser(null)
-        setIsLoading(false)
+    try {
+      if (!cookie) throw new Error();
+
+      const { data } = await api.verifyTokenRequest();
+      if (data) {
+        setIsAuthenticated(true);
+        setUser(data);
+        setIsLoading(false);
+        navigate('/room');
       }
+    } catch (error) {
+      setIsAuthenticated(false);
+      setUser(null);
+      setIsLoading(false);
+      navigate('/login');
     }
   };
 
@@ -91,7 +90,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
-
   if (!context) throw new Error('AuthContext must be used within a AuthProvider');
 
   return context;

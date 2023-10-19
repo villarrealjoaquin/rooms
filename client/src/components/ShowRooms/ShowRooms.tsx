@@ -9,7 +9,7 @@ export const ShowRooms = ({ children, showRoom }: Props) => {
       {
         showRoom
           ? children
-          : <h2 className="h2-acceder">Accede al canal que mas te guste!</h2>
+          : <h2 className="h2-acceder">Accede a la sala que más te guste</h2>
       }
     </>
   )

@@ -2,7 +2,7 @@ import { Button, ButtonGroup, FormControl, FormLabel, Heading, Input } from "@ch
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-export const Register = () => {
+const Register = () => {
   const [values, setValues] = useState({
     username: '',
     password: '',
@@ -43,3 +43,5 @@ export const Register = () => {
     </>
   )
 }
+
+export default Register;

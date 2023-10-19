@@ -1,10 +1,13 @@
+import { useAuth } from "../../context/AuthContext";
+
 interface Props {
   isTyping: boolean;
   userTyping: string;
 }
 
 export const Typing = ({ isTyping, userTyping }: Props) => {
-  if (!isTyping) return null;
-  
-  return <p className="typing"> <span>{userTyping}</span> esta escribiendo...</p>
+  const { user } = useAuth();
+  if (!isTyping || user?.username === userTyping) return null;
+
+  return <p className="typing"><span>{userTyping}</span> esta escribiendo...</p>
 }

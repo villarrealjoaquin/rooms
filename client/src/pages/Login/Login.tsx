@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Button, ButtonGroup, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 
-export const Login = () => {
+const Login = () => {
   const [values, setValues] = useState({
     password: '',
     email: '',
@@ -25,7 +25,7 @@ export const Login = () => {
     <>
       <div className="form-container">
         <Heading as='h3' size='md' marginBlock='1rem'>Iniciar Sesión</Heading>
-        <form  className="form-register" onSubmit={handleSubmit}>
+        <form className="form-register" onSubmit={handleSubmit}>
           <FormControl>
             <FormLabel marginTop='1rem'>Correo</FormLabel>
             <Input variant='filled' type="email" id="email-field" name="email" placeholder="Ingrese su correo" onChange={handleChange} />
@@ -40,3 +40,5 @@ export const Login = () => {
     </>
   )
 }
+
+export default Login;

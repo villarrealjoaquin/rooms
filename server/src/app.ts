@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('typing', ({ room, user }) => {
-    socket.broadcast.to(room).emit("typing:user", user.username);
+    io.to(room).emit("typing:user", user.username);
   })
 
   socket.on('disconnect', () => {
@@ -82,7 +82,6 @@ app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 

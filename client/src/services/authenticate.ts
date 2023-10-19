@@ -1,8 +1,11 @@
 import { User } from '../model/user.model';
 import instance from './axios.config';
 
-export const loginUserRequest = (user: User) => instance.post('/login', user);
+const api = {
+  loginUserRequest: (user: User) => instance.post('/login', user),
+  registerUserRequest: (user: User) => instance.post('/register', user),
+  verifyTokenRequest: () => instance.get('/verify'),
+  logoutRequest: () => instance.get('/logout')
+}
 
-export const registerUserRequest = (user: User) => instance.post('/register', user);
-
-export const verifyTokenRequest = () => instance.get('/verify');
+export default api;

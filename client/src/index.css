@@ -1,6 +1,5 @@
 body {
   background-color: black;
-
 }
 
 li {
@@ -25,14 +24,8 @@ label {
   text-align: center;
 }
 
-.form-container input {
-  /* margin: .5rem auto;
-  width: 15%; */
-}
-
 .form-register {
-  width: 20%;
-  
+  width: 40%;
 }
 
 .h2-room {
@@ -114,6 +107,8 @@ span {
 }
 
 .users-connected {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 
@@ -150,4 +145,41 @@ strong {
   width:25px;
   height: 25px;
   border-radius: 20px;
+}
+
+.container-loader {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+}
+
+.loader {
+  height: 4px;
+  width: 130px;
+  --c:no-repeat linear-gradient(#63b77d 0 0);
+  background: var(--c),var(--c),#C6F6D5;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
+}
+
+@keyframes l16 {
+  0%   {background-position:-150% 0,-150% 0}
+  66%  {background-position: 250% 0,-150% 0}
+  100% {background-position: 250% 0, 250% 0}
+}
+
+.user-count-change {
+  animation: appear 0.3s ease-out;
+}
+
+
+@keyframes appear {
+  from{
+    transform: translateX(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

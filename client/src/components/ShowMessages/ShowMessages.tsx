@@ -3,14 +3,14 @@ import { Message } from "../../pages"
 
 export const ShowMessages = ({ messages }: { messages: Message[] }) => {
   const { user } = useAuth();
-  
+
   return (
     <>
       <div className="chat">
         <ul>
           {messages.length === 0 ? (
             <li className="centered-message">
-              Se el primero en iniciar una conversación
+              Sé el primero en iniciar la conversación
             </li>
           )
             : messages.map((message, i) => (
@@ -21,8 +21,8 @@ export const ShowMessages = ({ messages }: { messages: Message[] }) => {
                 }}
               >
                 <div className="data-message">
-                  <p>{message.message}</p>
                   <strong>{message?.user?.username}</strong>
+                  <p>{message.message}</p>
                 </div>
               </li>
             ))}
