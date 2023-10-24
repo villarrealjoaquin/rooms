@@ -25,7 +25,7 @@ label {
 }
 
 .form-register {
-  width: 40%;
+  width: 20%;
 }
 
 .h2-room {
@@ -171,7 +171,6 @@ strong {
 .user-count-change {
   animation: appear 0.3s ease-out;
 }
-
 
 @keyframes appear {
   from{

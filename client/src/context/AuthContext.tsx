@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await api.loginUserRequest(user);
       setUser(res.data);
       setIsAuthenticated(true);
-      navigate('/room');
+      navigate('/');
       setIsLoading(false);
     } catch (error) {
       setIsAuthenticated(false);
@@ -42,36 +42,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(res);
       setIsAuthenticated(true);
       setIsLoading(false);
-      navigate('/room');
+      navigate('/');
     } catch (error) {
       setIsAuthenticated(false);
       setUser(null);
       setIsLoading(false);
-    }
-  };
-
-  const verifyToken = async () => {
-    const cookie = Cookies.get('roomToken');
-
-    try {
-      if (!cookie) throw new Error();
-
-      const { data } = await api.verifyTokenRequest();
-      if (data) {
-        setIsAuthenticated(true);
-        setUser(data);
-        setIsLoading(false);
-        navigate('/room');
-      }
-    } catch (error) {
-      setIsAuthenticated(false);
-      setUser(null);
-      setIsLoading(false);
-      navigate('/login');
     }
   };
 
   useEffect(() => {
+    const verifyToken = async () => {
+      const cookie = Cookies.get('roomToken');
+
+      try {
+        if (!cookie) throw new Error();
+
+        const { data } = await api.verifyTokenRequest();
+        if (data) {
+          setIsAuthenticated(true);
+          setUser(data);
+          setIsLoading(false);
+          navigate('/');
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setIsLoading(false);
+        navigate('/login');
+      }
+    };
+
     verifyToken();
   }, []);
 

@@ -4,5 +4,5 @@ export const PublicRoutes = {
 }
 
 export const PrivateRoutes = {
-  ROOM: '/room'
+  ROOM: '/'
 }

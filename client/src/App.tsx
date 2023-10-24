@@ -16,9 +16,9 @@ function App() {
         <AuthProvider>
           <RouterWithNotFound>
             <Route element={<AuthGuard />}>
-              <Route path={`${PrivateRoutes.ROOM}`} element={<Rooms />} />
+              <Route path={PrivateRoutes.ROOM} element={<Rooms />} />
             </Route>
-            <Route path='/register' element={<Register />} />
+            <Route path={PublicRoutes.REGISTER} element={<Register />} />
             <Route path={PublicRoutes.LOGIN} element={<Login />} />
           </RouterWithNotFound>
         </AuthProvider>
